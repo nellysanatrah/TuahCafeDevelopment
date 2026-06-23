@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Hubungi Kami</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- DROPDOWN --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- HERO BANNER --- */
+        .hero-banner {
+            width: 100%;
+            height: 500px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('komuniti.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-banner .text-container {
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-banner .text-container h1 {
+            font-size: 64px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner .text-container p {
+            font-size: 18px;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- CAWANGAN KAMI --- */
+        .cawangan-section {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #4A372E;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .cawangan-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .cawangan-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cawangan-card.text-card {
+            padding: 30px;
+        }
+
+        .cawangan-card h3 {
+            color: #4A372E;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .cawangan-card p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .map-container {
+            margin-top: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .cawangan-card.image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Memastikan kedua-dua gambar mempunyai ketinggian yang sama */
+            min-height: 450px; 
+            max-height: 450px;
+        }
+
+        /* --- HUBUNGI KAMI BOXES --- */
+        .hubungi-boxes-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hubungi-boxes-section .section-title {
+            margin-bottom: 10px;
+        }
+
+        .hubungi-boxes-section p.subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .boxes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .white-box {
+            background: white;
+            border-radius: 20px;
+            aspect-ratio: 3 / 4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .white-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- HANTAR MESEJ (BORANG) --- */
+        .hantar-mesej-section {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .title-with-line {
+            display: inline-block;
+            font-size: 28px;
+            color: #4A372E;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .title-with-line::after {
+            content: '';
+            display: block;
+            width: 70%;
+            height: 3px;
+            background-color: #d4a373; /* Warna garisan kuning/coklat cair */
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4A372E;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #4A372E;
+        }
+
+        .submit-btn {
+            background-color: #4A372E;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto 0;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #382922;
+        }
+
+        /* --- CTA BANNER --- */
+        .cta-banner {
+            background: linear-gradient(to right, #6b442b, #b57b54); /* Kecerunan coklat */
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-top: 60px;
+        }
+
+        .cta-banner h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .cta-banner p {
+            font-size: 14px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-solid {
+            background: white;
+            color: #4A372E;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-solid:hover { background: #f0f0f0; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+        /* Responsif untuk Mobile */
+        @media (max-width: 768px) {
+            .hero-banner .text-container h1 { font-size: 40px; }
+            .nav-links { display: none; }
+            .cawangan-grid { grid-template-columns: 1fr; }
+            .cawangan-card.image-card img { min-height: 300px; max-height: 300px; }
+            .boxes-grid { grid-template-columns: 1fr; }
+            .form-row { flex-direction: column; gap: 0; }
+            .cta-buttons { flex-direction: column; gap: 15px; align-items: center; }
+            .cta-buttons a { width: 100%; max-width: 250px; }
+        }
+        /* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="text-container">
+            <h1>HUBUNGI KAMI</h1>
+            <p>Ada soalan, cadangan atau ingin membuat tempahan? Jangan ragu untuk menghubungi kami melalui mana-mana cara di bawah.</p>
+        </div>
+    </section>
+
+    <section class="cawangan-section">
+        <h2 class="section-title">Cawangan Kami</h2>
+        <div class="cawangan-grid">
+            
+            <div class="cawangan-card text-card">
+                <h3>Tuah Cafe Bangi</h3>
+                <p>No.22 Jalan 7/1C, Seksyen 7, 43650 Bandar Baru Bangi,<br>Selangor Darul Ehsan</p>
+                <p>admin@tuahcafe.com</p>
+                <p>03-8912 8798</p>
+                <p>10:00 pagi - 11:00 malam</p>
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=Tuah%20Cafe%20Bangi&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="cawangan-card image-card">
+                <img src="kedai.jpeg" alt="Kedai Tuah Cafe Bangi">
+            </div>
+
+            <div class="cawangan-card image-card">
+                <img src="try2.jpeg" alt="Kedai Tuah Cafe Eco Majestic">
+            </div>
+
+            <div class="cawangan-card text-card">
+                <h3>Tuah Cafe Eco Majestic</h3>
+                <p>Eco Majestic, 42, Jalan Eco Majestic 10/1D, 43500 Semenyih,<br>Selangor Darul Ehsan</p>
+                <p>admin@tuahcafe.com</p>
+                <p>03-8912 8798</p>
+                <p>10:00 pagi - 11:00 malam</p>
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=Eco%20Majestic%20Semenyih&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section class="hubungi-boxes-section">
+        <h2 class="section-title">Hubungi Kami</h2>
+        <p class="subtitle">Ada soalan, cadangan, atau ingin membuat tempahan? Jangan ragu untuk menghubungi kami.</p>
+        
+        <div class="boxes-grid">
+            <div class="white-box"><img src="try1.jpeg" alt="Info 1"></div>
+            <div class="white-box"><img src="try2.jpeg" alt="Info 2"></div>
+            <div class="white-box"><img src="try3.jpeg" alt="Info 3"></div>
+        </div>
+    </section>
+
+    <section class="hantar-mesej-section">
+        <h2 class="title-with-line">Hantar Mesej</h2>
+        
+        <div class="form-container">
+            <form action="#" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Telefon</label>
+                    <input type="tel">
+                </div>
+                
+                <div class="form-group">
+                    <label>Subjek *</label>
+                    <input type="text" placeholder="Pilihan Subjek" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Mesej *</label>
+                    <textarea rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">HANTAR MESEJ</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <h2>Jangan Malu Untuk Bertanya</h2>
+        <p>Tim kami sentiasa sedia membantu. Hubungi kami hari ini untuk sebarang pertanyaan atau tempahan.</p>
+        <div class="cta-buttons">
+            <a href="tel:0389128798" class="btn-solid">03-8912 8798</a>
+            <a href="mailto:admin@tuahcafe.com" class="btn-outline">admin@tuahcafe.com</a>
+        </div>
+    </section>
+
+<footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang 
+                dikenali dalam industri makanan dan minuman, kisah kami adalah tentang semangat, ketahanan, 
+                dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Quick Link</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Contact Information</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Dropdown Logic (Updated to only trigger on caret icon)
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                // Buang class 'active' dari dropdown lain supaya tak bertindih
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        // Tutup dropdown jika klik di luar kawasan menu
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+                    dropdown.classList.remove("active");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

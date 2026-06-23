@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Galeri</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #fdfaf2; color: #4e342e; overflow-x: hidden; }
+        .main-header { background-color: #4A372E; color: white; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle { width: 45px; height: 45px; background-color: #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: #C5A059; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .header-icon { color: white; font-size: 20px; text-decoration: none; transition: 0.3s; display: flex; align-items: center; }
+        .header-icon:hover { color: #C5A059; }
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #4A372E; min-width: 180px; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); padding: 8px 0; z-index: 1001; }
+        .dropdown-content a { display: block; padding: 10px 16px; text-transform: none; }
+        .dropdown.active .dropdown-content { display: block; }
+        .hero-section { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop'); background-size: cover; background-position: center; height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; }
+        .hero-section h1 { font-size: 40px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;}
+        .hero-section h2 { font-size: 24px; font-weight: normal; }
+        .hero-section h2 span { color: #F5B041; font-weight: bold; }
+        .content-section { padding: 40px 20px; text-align: center; }
+        .section-title { color: #5D4037; font-size: 28px; font-weight: bold; margin-bottom: 30px; }
+        .section-title::after { content: ''; display: block; width: 100%; height: 3px; background-color: #d4a24c; margin: 8px auto 0; }
+
+        /* --- SLIDER ATAS (BETULKAN GERAK SATU-SATU) --- */
+        .slider-container { position: relative; max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+        .image-box { background: #f0f0f0; height: 220px; border-radius: 12px; width: 100%; overflow: hidden; }
+        .custom-swiper-button { width: 40px !important; height: 40px !important; background-color: #5D4037; border-radius: 50%; position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .custom-swiper-button::after { font-size: 14px !important; color: white !important; font-weight: bold; }
+        .custom-prev { left: 10px; }
+        .custom-next { right: 10px; }
+
+        /* --- PELAN LANTAI (STATIC TEXT + SWIPE IMAGE) --- */
+        .pelan-section { padding: 60px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .pelan-container-final { display: flex; max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-height: 400px; }
+        
+        /* Belah Kiri: STATIC (Takkan berubah bila swipe) */
+        .pelan-left-text { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; text-align: center; background-color: #D6A863; color: #4e342e; }
+        .pelan-left-text h3 { font-size: 24px; margin-bottom: 20px; font-weight: 800; }
+        .pelan-left-text h4 { font-size: 14px; margin-top: 15px; font-weight: bold; }
+        .pelan-left-text p { font-size: 13px; line-height: 1.6; }
+
+        /* Belah Kanan: SWIPE (Gambar sahaja gerak) */
+        .pelan-right-slider { flex: 1.2; position: relative; background: #f5f5f5; }
+        .pelan-right-slider .swiper-slide img { width: 100%; height: 100%; object-fit: contain; padding: 30px; }
+        
+        /* Arrow dalam kotak gambar */
+        .p-nav { background-color: rgba(93, 64, 55, 0.7) !important; width: 35px !important; height: 35px !important; }
+
+        /* ACARA */
+        .acara-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+        .acara-card { background: white; border-radius: 12px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .acara-card h3 { position: absolute; bottom: 15px; left: 20px; color: #5D4037; font-size: 16px; font-weight: bold; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 5px; }
+        .btn-tempah { margin-top: 40px; padding: 10px 25px; border: 2px solid #C5A059; background-color: transparent; color: #5D4037; font-weight: bold; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+		
+		/* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+            margin-top: 50px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons { display: flex; gap: 20px; }
+        .footer-icons a { color: white; font-size: 20px; transition: 0.3s; }
+        .footer-icons a:hover { color: #d4a24c; }
+
+        /* Responsif */
+        @media (max-width: 992px) {
+            .slide-layout { flex-direction: column; height: auto; }
+            .slide-image { padding: 20px; }
+            .pelan-swiper-container .custom-prev { left: 10px; }
+            .pelan-swiper-container .custom-next { right: 10px; }
+        }
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links, .lang-switch { display: none; }
+            .acara-grid { grid-template-columns: 1fr; } 
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle"><img src="logo.png" alt="Logo" style="width:46px;"></div>
+            <div class="brand-text"><h1>Tuah Cafe</h1><p>Best Makan Spot Event Space di Bangi</p></div>
+        </a>
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            <div class="dropdown">
+                <div class="dropdown-trigger"><a href="Perkhidmatan.html">Perkhidmatan</a><i class="fas fa-caret-down dropdown-toggle"></i></div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon"><i class="fas fa-shopping-cart"></i></a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <h1>GALERI ACARA</h1>
+        <h2><span>D'atas</span>@Tuah Cafe</h2>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">Ruang Acara Eco Majestic</h2>
+        <div class="slider-container">
+            <div class="swiper-button-prev custom-swiper-button custom-prev swiper-nav-majestic-prev"></div>
+            <div class="swiper swiperMajestic">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="image-box"><img src="spaceeco1.jpeg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="spaceeco2.jpeg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="spaceeco3.jpeg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="spaceeco4.jpeg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                </div>
+            </div>
+            <div class="swiper-button-next custom-swiper-button custom-next swiper-nav-majestic-next"></div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">Ruang Acara Bangi</h2>
+        <div class="slider-container">
+            <div class="swiper-button-prev custom-swiper-button custom-prev swiper-nav-bangi-prev"></div>
+            <div class="swiper swiperBangi">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="image-box"><img src="bangi1.jpg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="bangi2.jpg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="bangi3.jpg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                    <div class="swiper-slide"><div class="image-box"><img src="bangi4.jpg" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                </div>
+            </div>
+            <div class="swiper-button-next custom-swiper-button custom-next swiper-nav-bangi-next"></div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">Acara</h2>
+        <div class="acara-grid">
+            <div class="acara-card"><img src="k1.jpg" style="width:100%; height:220px; object-fit:cover;"><h3>Majlis Hari Jadi</h3></div>
+            <div class="acara-card"><img src="anugerah.png" style="width:100%; height:220px; object-fit:cover;"><h3>Majlis Anugerah</h3></div>
+            <div class="acara-card"><img src="tahunan.png" style="width:100%; height:220px; object-fit:cover;"><h3>Mesyuarat Tahunan</h3></div>
+        </div>
+        <button class="btn-tempah" onclick="window.location.href='cafe_event_bookings.php';">TEMPAH SEKARANG</button>
+    </section>
+
+    <section class="pelan-section">
+        <h2 class="section-title">Pelan Lantai</h2>
+        <div class="pelan-container-final">
+            
+            <div class="pelan-left-text">
+                <h3>FAMILY DINING STYLE</h3>
+                <h4>SESUAI UNTUK:</h4>
+                <p>• Majlis Hari Lahir • Majlis Pertunangan • Baby Shower • Aqiqah • Perhimpunan Syarikat •</p>
+                <h4>KAPASITI:</h4>
+                <p>• Bangi: 32 orang<br>• Eco Majestic: 70 orang</p>
+            </div>
+
+            <div class="swiper pelan-right-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="famdiningbangi.jpg"></div>
+                    <div class="swiper-slide"><img src="famdiningbangi2.jpg"></div>
+                    <div class="swiper-slide"><img src="famdiningbangi3.jpg"></div>
+                </div>
+                <div class="swiper-button-prev custom-swiper-button custom-prev p-nav"></div>
+                <div class="swiper-button-next custom-swiper-button custom-next p-nav"></div>
+            </div>
+        </div>
+		</section>
+		
+		<section>
+		<div class="pelan-container-final">
+            
+            <div class="pelan-left-text">
+                <h3>THEATER STYLE</h3>
+                <h4>SESUAI UNTUK:</h4>
+                <p>• Hari Anugerah • Mesyuarat Agung Tahunan • Pelancaran Produk •</p>
+                <h4>KAPASITI:</h4>
+                <p>• Bangi: 18 orang<br>• Eco Majestic: 32 orang</p>
+            </div>
+
+            <div class="swiper pelan-right-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="theater.jpg"></div>
+                    <div class="swiper-slide"><img src="theater2.jpg"></div>
+                </div>
+                <div class="swiper-button-prev custom-swiper-button custom-prev p-nav"></div>
+                <div class="swiper-button-next custom-swiper-button custom-next p-nav"></div>
+            </div>
+        </div>
+		</section>
+		
+		<section class="pelan-section">
+		<div class="pelan-container-final">
+            
+            <div class="pelan-left-text">
+                <h3>CLASSROOM STYLE</h3>
+                <h4>SESUAI UNTUK:</h4>
+                <p>• Kelas Latihan • Seminar • Workshop • Bengkel Kerja •</p>
+                <h4>KAPASITI:</h4>
+                <p>• Bangi: 22 orang<br>• Eco Majestic: 45 orang</p>
+            </div>
+
+            <div class="swiper pelan-right-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="classroom.jpg"></div>
+                    <div class="swiper-slide"><img src="classroom2.jpg"></div>
+                </div>
+                <div class="swiper-button-prev custom-swiper-button custom-prev p-nav"></div>
+                <div class="swiper-button-next custom-swiper-button custom-next p-nav"></div>
+            </div>
+        </div>
+		</section>
+		
+		<div class="pelan-container-final">
+            
+            <div class="pelan-left-text">
+                <h3>BOARDROOM STYLE</h3>
+                <h4>SESUAI UNTUK:</h4>
+                <p>• Mesyuarat Lembaga Pengarah • Discussion • Perbincangan Khas •</p>
+                <h4>KAPASITI:</h4>
+                <p>• Bangi: 16 orang<br>• Eco Majestic: 24 orang</p>
+            </div>
+
+            <div class="swiper pelan-right-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="boardroom.jpg"></div>
+                    <div class="swiper-slide"><img src="boardroom2.jpg"></div>
+                </div>
+                <div class="swiper-button-prev custom-swiper-button custom-prev p-nav"></div>
+                <div class="swiper-button-next custom-swiper-button custom-next p-nav"></div>
+            </div>
+        </div>
+		</section>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang 
+				dikenali dalam industri makanan dan minuman, kisah kami adalah tentang semangat, ketahanan, 
+				dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Tuah Cafe. Hak Cipta Terpelihara.</p>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper Pelan (Hanya gambar yang boleh di-swipe, teks di kiri kekal)
+        const swiperPelan = new Swiper('.pelan-right-slider', {
+            loop: true,
+            navigation: { 
+                nextEl: '.swiper-button-next', 
+                prevEl: '.swiper-button-prev' 
+            },
+        });
+
+        // Swiper Majestic & Bangi (Dibetulkan gerak satu-satu)
+        const commonOptions = { 
+            slidesPerView: 1, 
+            spaceBetween: 20, 
+            slidesPerGroup: 1, 
+            breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } 
+        };
+        new Swiper('.swiperMajestic', { ...commonOptions, navigation: { nextEl: '.swiper-nav-majestic-next', prevEl: '.swiper-nav-majestic-prev' } });
+        new Swiper('.swiperBangi', { ...commonOptions, navigation: { nextEl: '.swiper-nav-bangi-next', prevEl: '.swiper-nav-bangi-prev' } });
+
+        // Dropdown Menu Logic
+        document.querySelector('.dropdown-toggle').addEventListener('click', function(e) { e.preventDefault(); document.querySelector('.dropdown').classList.toggle('active'); });
+    </script>
+</body>
+</html>

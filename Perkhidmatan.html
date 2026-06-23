@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Perkhidmatan</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon:hover {
+            color: #C5A059;
+        }
+
+        /* --- DROPDOWN --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+
+        /* ========================================= */
+        /* --- RUANG ACARA STYLES --- */
+        /* ========================================= */
+        
+        .hero-ruang {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('hero-bg-placeholder.jpg') center/cover no-repeat;
+            background-color: #5d4037;
+            padding: 80px 40px;
+            color: white;
+            text-align: left;
+            padding-left: 10%;
+        }
+
+        .hero-ruang h1 { font-size: 48px; font-weight: bold; margin-bottom: 10px; }
+        .hero-ruang h1 span { color: #d4a24c; }
+        .hero-ruang p { font-size: 18px; letter-spacing: 1px; word-spacing: 3px; }
+
+        .content-section {
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #5d4037;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: #d4a24c;
+            margin: 10px auto 0;
+        }
+
+        .section-desc {
+            font-size: 14px;
+            color: #795548;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+            line-height: 1.6;
+        }
+
+        /* --- KEMUDAHAN GRID --- */
+        .kemudahan-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .kemudahan-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            height: 180px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .kemudahan-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- KEISTIMEWAAN BOXES --- */
+        .keistimewaan-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .keistimewaan-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            flex: 1;
+            max-width: 450px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+
+        .keistimewaan-box ul, .pakej-list, .custom-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .keistimewaan-box ul li, .pakej-list li, .custom-menu-list li {
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #5d4037;
+            position: relative;
+            padding-left: 15px;
+            line-height: 1.5;
+        }
+
+        .keistimewaan-box ul li::before, .pakej-list li::before, .custom-menu-list li::before {
+            content: '•';
+            color: #5d4037;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* ========================================= */
+        /* --- PAKEJ SEWA & ACARA --- */
+        /* ========================================= */
+
+        .pakej-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .pakej-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .pakej-card.active-border:hover {
+            border-color: #2196F3;
+        }
+
+        .pakej-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pakej-title { font-size: 18px; font-weight: bold; color: #4e342e; }
+        .pakej-price { font-size: 16px; font-weight: bold; color: #4e342e; }
+        .pakej-price span { font-size: 12px; font-weight: normal; opacity: 0.7;}
+
+        .pakej-footer {
+            margin-top: auto;
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #795548;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-solid {
+            background-color: #5d4037;
+            color: #ffffff;
+            border: 1px solid #5d4037;
+        }
+        .btn-solid:hover { background-color: #4e342e; }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #5d4037;
+            border: 1px solid #5d4037;
+        }
+        .btn-outline:hover { background-color: #5d4037; color: white; }
+
+        .pakej-subtitle {
+            font-size: 13px;
+            color: #795548;
+            margin-bottom: 20px;
+            margin-top: -10px;
+        }
+
+        .menu-category {
+            font-size: 13px;
+            font-weight: bold;
+            color: #4e342e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .pakej-list.menu-list li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* ========================================= */
+        /* --- REKA HIDANGAN & TAMBAHAN --- */
+        /* ========================================= */
+        
+        .reka-hidangan-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        .reka-col {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .reka-col .menu-category {
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .custom-menu-list li {
+            margin-bottom: 6px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .tambahan-grid {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        /* ========================================= */
+        /* --- TERMA & SYARAT BANNER --- */
+        /* ========================================= */
+        .terma-banner {
+            background-color: #D6A863;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 50px 40px;
+            color: #4A372E;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .terma-banner h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .terma-list {
+            text-align: left;
+            max-width: 650px;
+            margin: 0 auto;
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .terma-list li {
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .banner-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-white {
+            background-color: white;
+            color: #D6A863;
+            border: 1px solid white;
+        }
+        .btn-white:hover {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline-white {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+        .btn-outline-white:hover {
+            background-color: white;
+            color: #D6A863;
+        }
+
+
+        /* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .grid-container, .footer-container, .kemudahan-grid, .pakej-container { grid-template-columns: 1fr; }
+            .kemudahan-grid { grid-template-columns: repeat(2, 1fr); }
+            .reka-hidangan-grid { flex-direction: column; }
+            .tambahan-grid { flex-direction: column; gap: 20px; align-items: center;}
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { display: none; }
+            .lang-switch { display: none; }
+            
+            .hero-ruang { padding-left: 20px; text-align: center; }
+            .hero-ruang h1 { font-size: 32px; }
+            .keistimewaan-container { flex-direction: column; align-items: center; }
+            .pakej-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .pakej-footer { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .banner-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+                <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-ruang">
+        <h1><span>D'atas</span> @Tuah Cafe</h1>
+        <p>• Majlis Hari Jadi • Majlis Perasmian • Mesyuarat • Seminar</p>
+    </section>
+
+    <section class="content-section">
+        
+        <h2 class="section-title">Ruang Acara Berkualiti</h2>
+        <p class="section-desc">
+            Tuah Cafe menyediakan ruang acara yang selesa dan moden untuk pelbagai majlis. Dari mesyuarat perniagaan kecil ke sambutan hari jadi, kami ada ruang yang sesuai untuk anda.
+        </p>
+
+        <h2 class="section-title">Keistimewaan</h2>
+        <div class="keistimewaan-container">
+            <div class="keistimewaan-box">
+                <ul>
+                    <li>Ruang acara sesuai untuk pelbagai jenis majlis sosial</li>
+                    <li>Kapasiti maksimum 84 pax (Bangi) & 70 pax (Eco Majestic)</li>
+                    <li>Parkir yang luas</li>
+                    <li>Ruang makan yang selesa</li>
+                </ul>
+            </div>
+            <div class="keistimewaan-box">
+                <ul>
+                    <li>Pelbagai kemudahan tambahan</li>
+                    <li>Kakitangan berdedikasi</li>
+                    <li>Sesuai untuk networking, pembelajaran & bersosial</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">Pakej Sewa</h2>
+        <div class="pakej-container">
+            <div class="pakej-card active-border">
+                <div class="pakej-header">
+                    <div class="pakej-title">Tuah Cafe Bangi</div>
+                    <div class="pakej-price">RM350 <span>/ 3 Jam</span></div>
+                </div>
+                <ul class="pakej-list">
+                    <li>Penggunaan eksklusif bilik mesyuarat / ruang acara</li>
+                    <li>Penggunaan projektor dan sistem PA</li>
+                    <li>WIFI percuma</li>
+                    <li>Ruangan berhawa dingin</li>
+                </ul>
+                <div class="pakej-footer">
+                    <span>Lebih Masa: RM100/jam</span>
+                    <a href="galeriacara.html" class="btn btn-outline">LIHAT SUSUN ATUR</a>
+                </div>
+            </div>
+
+            <div class="pakej-card">
+                <div class="pakej-header">
+                    <div class="pakej-title">Tuah Cafe Eco Majestic</div>
+                    <div class="pakej-price">RM550 <span>/ 3 Jam</span></div>
+                </div>
+                <ul class="pakej-list">
+                    <li>Penggunaan eksklusif bilik mesyuarat / ruang acara</li>
+                    <li>Penggunaan projektor dan sistem PA</li>
+                    <li>WIFI percuma</li>
+                    <li>Ruangan berhawa dingin</li>
+                    <li>Surau dan bilik tetamu</li>
+                </ul>
+                <div class="pakej-footer">
+                    <span>Lebih Masa: RM150/jam</span>
+                    <a href="galeriacara.html" class="btn btn-outline">LIHAT SUSUN ATUR</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Pakej Ruang Acara 2026</h2>
+        <div class="pakej-subtitle">Sesuai untuk Mesyuarat Tahunan, Jamuan & Sambutan</div>
+        
+        <div class="pakej-container">
+            <div class="pakej-card">
+                <div class="pakej-header">
+                    <div class="pakej-title">Pakej A</div>
+                    <div class="pakej-price">RM49.90 <span>/ orang</span></div>
+                </div>
+                <div class="menu-category">Hidangan Utama</div>
+                <ul class="pakej-list menu-list">
+                    <li>Grilled Lamb with Grilled Vegetables.</li>
+                    <li>Spaghetti atau Nasi</li>
+                    <li>Daging pilihan anda</li>
+                    <li>Salad pilihan anda</li>
+                </ul>
+                <div class="menu-category">Pembuka Selera</div>
+                <ul class="pakej-list menu-list">
+                    <li>Mushroom Soup With Garlic Bread</li>
+                    <li>Mini Crazy Nachos</li>
+                    <li>Mashed Potato with Black Pepper Sauce</li>
+                </ul>
+                <div class="menu-category">Minuman</div>
+                <ul class="pakej-list menu-list">
+                    <li>Hot Thai Milk Tea</li>
+                    <li>Sirap Pandan with Selasih</li>
+                </ul>
+                <div class="menu-category">Pencuci Mulut</div>
+                <ul class="pakej-list menu-list">
+                    <li>Fruit Platter</li>
+                    <li>Ice Cream Sundae</li>
+                    <li>Pencuci Mulut pilihan anda</li>
+                </ul>
+                <div class="pakej-footer" style="justify-content: flex-end;">
+                    <a href="cafe_event_bookings.php" class="btn btn-outline">TEMPAH SEKARANG</a>
+                </div>
+            </div>
+
+            <div class="pakej-card">
+                <div class="pakej-header">
+                    <div class="pakej-title">Pakej B</div>
+                    <div class="pakej-price">RM45.90 <span>/ orang</span></div>
+                </div>
+                <div class="menu-category">Hidangan Utama</div>
+                <ul class="pakej-list menu-list">
+                    <li>Spaghetti atau Nasi</li>
+                    <li>Daging pilihan anda</li>
+                    <li>Salad pilihan anda</li>
+                </ul>
+                <div class="menu-category">Pembuka Selera</div>
+                <ul class="pakej-list menu-list">
+                    <li>Mushroom Soup With Garlic Bread</li>
+                    <li>Mini Crazy Nachos</li>
+                    <li>Mashed Potato with Black Pepper Sauce</li>
+                </ul>
+                <div class="menu-category">Minuman</div>
+                <ul class="pakej-list menu-list">
+                    <li>Hot Thai Milk Tea</li>
+                    <li>Sirap Pandan with Selasih</li>
+                </ul>
+                <div class="menu-category">Pencuci Mulut</div>
+                <ul class="pakej-list menu-list">
+                    <li>Fruit Platter</li>
+                    <li>Ice Cream Sundae</li>
+                    <li>Pencuci Mulut pilihan anda</li>
+                </ul>
+                <div class="pakej-footer" style="justify-content: flex-end;">
+                    <a href="cafe_event_bookings.php" class="btn btn-outline">TEMPAH SEKARANG</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pakej-subtitle">Sesuai untuk Hi-Tea & Majlis Hari Jadi Kanak-kanak</div>
+        <div class="pakej-container">
+            <div class="pakej-card">
+                <div class="pakej-header">
+                    <div class="pakej-title">Pakej C</div>
+                    <div class="pakej-price">RM39.90 <span>/ orang</span></div>
+                </div>
+                <div class="menu-category">Hidangan Utama</div>
+                <ul class="pakej-list menu-list">
+                    <li>Spaghetti atau Nasi</li>
+                    <li>Salad pilihan anda</li>
+                </ul>
+                <div class="menu-category">Pembuka Selera</div>
+                <ul class="pakej-list menu-list">
+                    <li>BBQ Chicken Wings</li>
+                    <li>Mushroom Soup With Garlic Bread</li>
+                    <li>Mashed Potato with Black Pepper Sauce</li>
+                    <li>Pembuka selera pilihan anda</li>
+                </ul>
+                <div class="menu-category">Minuman</div>
+                <ul class="pakej-list menu-list">
+                    <li>Hot Thai Milk Tea</li>
+                    <li>Sirap Pandan with Selasih</li>
+                </ul>
+                <div class="menu-category">Pencuci Mulut</div>
+                <ul class="pakej-list menu-list">
+                    <li>Fruit Platter</li>
+                    <li>Ice Cream Sundae</li>
+                    <li>Pencuci Mulut pilihan anda</li>
+                </ul>
+                <div class="pakej-footer" style="justify-content: flex-end;">
+                    <a href="cafe_event_bookings.php" class="btn btn-outline">TEMPAH SEKARANG</a>
+                </div>
+            </div>
+
+            <div class="pakej-card">
+                <div class="pakej-header">
+                    <div class="pakej-title">Pakej D</div>
+                    <div class="pakej-price">RM35.90 <span>/ orang</span></div>
+                </div>
+                <div class="menu-category">Hidangan Utama</div>
+                <ul class="pakej-list menu-list">
+                    <li>Mac & Cheese</li>
+                    <li>Spaghetti atau Nasi</li>
+                    <li>Salad pilihan anda</li>
+                </ul>
+                <div class="menu-category">Pembuka Selera</div>
+                <ul class="pakej-list menu-list">
+                    <li>Mushroom Soup With Garlic Bread</li>
+                    <li>Mini Cheezy Nachos</li>
+                    <li>Mashed Potato with Black Pepper Sauce</li>
+                    <li>Pembuka selera pilihan anda</li>
+                </ul>
+                <div class="menu-category">Minuman</div>
+                <ul class="pakej-list menu-list">
+                    <li>Hot Thai Milk Tea</li>
+                    <li>Sirap Pandan with Selasih</li>
+                </ul>
+                <div class="menu-category">Pencuci Mulut</div>
+                <ul class="pakej-list menu-list">
+                    <li>Pencuci Mulut pilihan anda</li>
+                </ul>
+                <div class="pakej-footer" style="justify-content: flex-end;">
+                    <a href="cafe_event_bookings.php" class="btn btn-outline">TEMPAH SEKARANG</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title" style="border-bottom: 3px solid #5D4037; padding-bottom: 5px; margin-bottom: 5px;">Reka Hidangan Anda</h2>
+        <style>
+            .section-title[style*="border-bottom"]::after { display: none; } /* Sorok garis kuning biasa untuk tajuk ini */
+        </style>
+        <p class="section-desc">Pilih hidangan yang paling sesuai dengan keperluan acara anda</p>
+
+        <div class="reka-hidangan-grid">
+            <div class="reka-col">
+                <div class="menu-category">SPAGETI ATAU NASI</div>
+                <ul class="custom-menu-list">
+                    <li>Spageti Olio Daging Pedas</li>
+                    <li>Bolognese</li>
+                    <li>Carbonara</li>
+                    <li>Pesto</li>
+                    <li>Nasi Butter Chicken</li>
+                    <li>Nasi Ayam Balado</li>
+                </ul>
+            </div>
+            <div class="reka-col">
+                <div class="menu-category">PILIHAN DAGING ANDA</div>
+                <ul class="custom-menu-list">
+                    <li>Ayam Panggang dengan Sayur Panggang</li>
+                    <li>Chicken Chop</li>
+                    <li>Ikan dan Kentang Goreng</li>
+                </ul>
+                <br>
+                <div class="menu-category">PEMBUKA SELERA PILIHAN ANDA</div>
+                <ul class="custom-menu-list">
+                    <li>Bebola Daging Lembu dengan Sayur Panggang</li>
+                    <li>Chicken Popcorn Keju</li>
+                </ul>
+            </div>
+            <div class="reka-col">
+                <div class="menu-category">SALAD PILIHAN ANDA</div>
+                <ul class="custom-menu-list">
+                    <li>Coleslaw</li>
+                    <li>Garden Salad</li>
+                    <li>Salad Buah</li>
+                </ul>
+                <br>
+                <div class="menu-category">PENCUCI MULUT PILIHAN ANDA</div>
+                <ul class="custom-menu-list">
+                    <li>Brownies (48 Keping)</li>
+                    <li>Puding Roti (48 Keping)</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">Pakej Makanan Tambahan</h2>
+        <p class="section-desc" style="margin-top:-10px;">Sajian untuk 10 orang setiap item</p>
+
+        <div class="tambahan-grid">
+            <ul class="custom-menu-list">
+                <li>Nuget</li>
+                <li>Kepak Ayam BBQ </li>
+                <li>Sotong Goreng Tepung</li>
+                <li>Cendawan</li>
+            </ul>
+            <ul class="custom-menu-list">
+                <li>Bebola Daging</li>
+                <li>Ayam Popcorn Keju</li>
+                <li>Mac & Cheese</li>
+                <li>Nasi Goreng Cina</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">Pakej Pencuci Mulut</h2>
+        <p class="section-desc" style="margin-top:-10px;">Tambahkan hidangan manis tambahan bagi memeriahkan acara anda</p>
+
+        <div class="tambahan-grid">
+            <ul class="custom-menu-list">
+                <li>Mini Cream Puff (50 biji)</li>
+                <li>Bite Size Pavlova (36 biji)</li>
+                <li>Cheesetart (25 biji)</li>
+            </ul>
+            <ul class="custom-menu-list">
+                <li>Fruit Platter (3 jenis buah)</li>
+                <li>Whole Cake</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <div class="terma-banner">
+        <h2>Terma & Syarat</h2>
+        <ul class="terma-list">
+            <li>Caj akan dikenakan untuk acara dengan jumlah tetamu di bawah minimum</li>
+            <li>Tempahan mesti dibuat sekurang-kurangnya <strong>1 minggu sebelum acara</strong>.</li>
+            <li><strong>Deposit 50%</strong> mesti dibayar <strong>3 hari sebelum acara</strong>.</li>
+            <li>Deposit <strong>tidak boleh dikembalikan</strong>.</li>
+            <li><strong>Bayaran penuh</strong> mesti dibuat <strong>1 jam sebelum acara bermula</strong>.</li>
+            <li>Pelanggan boleh <strong>menyediakan persiapan 1 jam sebelum acara bermula</strong>.</li>
+        </ul>
+        <div class="banner-buttons">
+            <a href="cafe_event_bookings.php" class="btn btn-outline-white">TEMPAH SEKARANG</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang 
+				dikenali dalam industri makanan dan minuman, kisah kami adalah tentang semangat, ketahanan, dan 
+				keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Dropdown Logic
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+                    dropdown.classList.remove("active");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

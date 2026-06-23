@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semak Mata - Tuah Cafe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #FDF5E6;
+            color: #4A372E;
+            overflow-x: hidden;
+            text-align: left; /* Tukar global text align ke kiri */
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+            color: inherit;
+            text-align: left; /* Pastikan teks logo di kiri */
+        }
+
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; line-height: 1.2; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- DROPDOWN (Align Left) --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 200px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+            text-align: left; /* Teks perkhidmatan ke kiri */
+            font-size: 13px;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- BANNER --- */
+        .header-banner { 
+            background: linear-gradient(to bottom, #7A4F37, #A67C52); 
+            padding: 40px 40px; 
+            color: white; 
+            text-align: center; /* Banner kekal center untuk impak visual */
+        }
+        .header-banner h1 { font-size: 48px; margin: 0; letter-spacing: 2px; }
+        .header-banner p { color: #FDF5E6; font-size: 18px; margin-top: 10px; opacity: 0.9; }
+        
+        /* --- REWARD CARDS (With Image Link) --- */
+        .rewards-container { display: flex; justify-content: center; gap: 20px; padding: 50px 20px; flex-wrap: wrap; }
+        
+        .reward-card { 
+            background: white; 
+            width: 280px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 0; /* Pad dibuang untuk imej rapat ke atas */
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .reward-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .reward-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            flex-grow: 1;
+        }
+        
+        .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 8px; overflow: hidden; }
+        .progress { background: #C5A059; height: 100%; }
+        .reward-label { font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #4A372E; }
+        .reward-needed { font-size: 12px; color: #888; }
+
+        .action-area { padding-bottom: 50px; text-align: center; }
+        .btn-login { 
+            background-color: #5D4037; 
+            color: white; 
+            padding: 15px 40px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            display: inline-block; 
+            transition: 0.3s; 
+        }
+        .btn-login:hover { background-color: #3E2723; transform: translateY(-2px); }
+
+        /* --- FOOTER (Align Left) --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+            text-align: left; /* Footer teks ke kiri */
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; text-align: left; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 10px; }
+        .footer-container ul { list-style: none; padding: 0; }
+        .footer-container ul li { margin-bottom: 10px; text-align: left; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons { display: flex; gap: 20px; }
+        .footer-icons a { color: white; font-size: 20px; transition: 0.3s; }
+
+        @media (max-width: 768px) {
+            footer { padding: 40px 20px; }
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .main-header { padding: 10px 20px; }
+            .nav-links, .header-right { display: none; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="header-banner">
+        <h1>SEMAK MATA</h1>
+        <p>1 mata = minimum perbelanjaan RM1 setiap lawatan</p>
+    </div>
+
+    <div class="rewards-container">
+        <div class="reward-card">
+            <img src="sundae.jpg" alt="Aiskrim" class="reward-img">
+            <div class="reward-details">
+                <div class="reward-label">x1 Aiskrim sundae</div>
+                <div class="progress-bar"><div class="progress" style="width: 20%;"></div></div>
+                <div class="reward-needed">80 mata lagi diperlukan!</div>
+            </div>
+        </div>
+
+        <div class="reward-card">
+            <img src="creampuff.jpg" alt="Krim Puff" class="reward-img">
+            <div class="reward-details">
+                <div class="reward-label">x1 Krim puff</div>
+                <div class="progress-bar"><div class="progress" style="width: 10%;"></div></div>
+                <div class="reward-needed">100 mata lagi diperlukan!</div>
+            </div>
+        </div>
+
+        <div class="reward-card">
+            <img src="CaffeLatte.png" alt="Latte" class="reward-img">
+            <div class="reward-details">
+                <div class="reward-label">1 Latte ais</div>
+                <div class="progress-bar"><div class="progress" style="width: 5%;"></div></div>
+                <div class="reward-needed">150 mata lagi diperlukan!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-area">
+        <a href="semakreward.html" class="btn-login">LOG MASUK UNTUK SEMAK REWARD</a>
+    </div>
+	
+	<footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Kisah kami adalah tentang semangat, ketahanan, dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Ahli</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+	
+    <script>
+        // Dropdown Logic
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+                    dropdown.classList.remove("active");
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

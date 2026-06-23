@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Menu</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- LANGUAGE SWITCHER --- */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .lang-switch a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .lang-switch a.active, .lang-switch a:hover {
+            color: #C5A059;
+        }
+        .lang-switch span {
+            opacity: 0.5;
+            color: white;
+        }
+		
+		/* --- Tambah gaya untuk header-right agar cart & language selari --- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Jarak antara icon cart dan tulisan MS|EN */
+}
+
+/* --- Pastikan cart icon mempunyai saiz & alignment yang betul --- */
+.cart-icon {
+    color: white;
+    font-size: 20px; /* Besarkan sikit supaya nampak seimbang */
+    text-decoration: none;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon:hover {
+    color: #C5A059;
+}
+
+        /* --- DROPDOWN --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1551782450-a2132b4ba21d') center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .hero h1 { font-size: 45px; margin-bottom: 10px; }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary { background: #5b3a29; color: white; }
+        .btn-outline-hero { background: white; color: #5b3a29; }
+
+        /* --- INFO SECTION --- */
+        .info-section { background: #d8cfc3; padding: 60px; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .image-box { height: 400px; overflow: hidden; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+        .text-box {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .text-box h2 { font-size: 28px; color: #4b2e1e; margin-bottom: 15px; }
+        .text-box p { font-size: 14px; line-height: 1.6; margin-bottom: 20px; text-align: justify; }
+        .btn-text-box {
+            width: fit-content;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: 1px solid #4b2e1e;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+        }
+		/* --- HERO BANNER --- */
+        .hero-banner {
+            width: 100%;
+            height: 500px;
+            /* Gantikan URL di bawah dengan gambar burger anda */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1965&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-banner .text-container {
+            color: white;
+        }
+
+        .hero-banner .text-container h1 {
+            font-size: 64px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .hero-banner .text-container p {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner .text-container h1 { font-size: 40px; }
+            .nav-links { display: none; } /* Sorok nav di mobile untuk kemas */
+        }
+		
+    /* Container utama untuk bar menu */
+    .menu-navigation-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        margin: 40px auto;
+        gap: 15px;
+    }
+
+    /* Gaya asas butang (Warna Cream) */
+    .menu-nav-btn {
+        text-decoration: none;
+        color: #FDF5E6; /* Warna cream */
+        background-color: #7A4F37; /* Warna coklat */ 
+        padding: 12px 25px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+		/* TAMBAH BARIS INI UNTUK OUTLINE */
+    border: 2px solid #FDF5E6; /* Ketebalan 2px dan warna coklat gelap */
+	border-color: #4A372E; /* Border kekal coklat atau boleh tukar warna lain */
+    }
+	
+
+    /* Kesan apabila cursor lalu (Hover) & Click (Active) */
+    .menu-nav-btn:hover, 
+    .menu-nav-btn:active {
+        background-color: #FDF5E6; /* Warna cream */
+        color: brown; /* Tukar teks jadi coklat */
+        transform: translateY(-2px); /* Kesan angkat sikit */
+    }
+
+    /* Gaya untuk butang halaman semasa (Optional - jika nak nampak beza) */
+    .menu-nav-btn.current {
+        background-color: #7A4F37;
+        color: white;
+    }
+
+    /* Responsif untuk Mobile */
+    @media (max-width: 768px) {
+        .menu-navigation-bar {
+            flex-wrap: wrap;
+            border-radius: 20px;
+            padding: 15px;
+        }
+        .menu-nav-btn {
+            font-size: 12px;
+            padding: 10px;
+            min-width: 140px;
+        }
+    }
+
+		/* --- MENU POPULAR (SLIDER) --- */
+        .section-title { text-align: center; font-size: 32px; margin: 50px 0 30px; color: #5d4037; }
+        
+        .menu-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 50px;
+        }
+        .swiper { padding: 20px 0 60px; }
+        .menu-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+			min-height: 450px; /* Tambah ini untuk paksa kotak jadi lebih panjang */
+			display: flex; /* Tambah ini bersama flex-direction */
+    flex-direction: column; /* Supaya content tersusun ke bawah */
+        }
+        .menu-img {
+            height: 300px;
+            background-color: #eee;
+            background-image: radial-gradient(#dcdcdc 20%, transparent 20%), radial-gradient(#dcdcdc 20%, transparent 20%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+        }
+        .menu-info { padding: 20px; }
+        .menu-info h4 { margin-bottom: 5px; font-size: 18px; }
+        .menu-info p { color: #888; font-size: 14px; }
+		
+		.menu-category-title {
+		max-width: 1000px;    /* Sama dengan max-width .menu-container */
+		margin: 40px auto 10px auto; /* 'auto' kiri kanan untuk letak di tengah, sama macam menu */
+		text-align: left;      /* Tulisan rapat ke kiri */
+}
+.menu-category-title h3 {
+    color: #4A372E;
+    font-size: 20px;
+    font-weight: 500;     /* Saya tukar ke 700 supaya lebih jelas seperti dalam gambar */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+        /* Arrows Slider */
+        .swiper-button-next, .swiper-button-prev {
+            background-color: #5b3a29;
+            width: 45px !important;
+            height: 45px !important;
+            border-radius: 50%;
+            color: white !important;
+        }
+        .swiper-button-next:after, .swiper-button-prev:after { font-size: 18px !important; }
+		
+		/* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .visit-container { flex-direction: column; }
+            .visit-image { width: 100%; height: 300px; }
+            .nav-links { display: none; }
+            .lang-switch { display: none; } /* Sorok switcher di mobile sementara tiada menu hamburger */
+        }
+        }
+    /* --- SECTION INGIN MENCUBA (IKUT GAMBAR) --- */
+    .cta-simple-section {
+        background: linear-gradient(to right, #7A4F37, #c19a6b); /* Gradient coklat */
+        padding: 80px 20px;
+        text-align: center;
+        color: white;
+        border-bottom: 5px solid #4A372E; /* Garisan pemisah halus sebelum footer */
+    }
+
+    .cta-simple-section h2 {
+        font-size: 48px; /* Saiz besar seperti dalam gambar */
+        font-weight: 700;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .cta-simple-section p {
+        font-size: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.4;
+        font-weight: 400;
+        opacity: 0.95;
+    }
+	/* --- SECTION INGIN MENCUBA (IKUT GAMBAR) --- */
+    .cta-simple-section {
+        background: linear-gradient(to right, #7A4F37, #c19a6b); /* Gradient coklat */
+        padding: 80px 20px;
+        text-align: center;
+        color: white;
+        border-bottom: 5px solid #4A372E; /* Garisan pemisah halus sebelum footer */
+    }
+
+    .cta-simple-section h2 {
+        font-size: 48px; /* Saiz besar seperti dalam gambar */
+        font-weight: 700;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .cta-simple-section p {
+        font-size: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.4;
+        font-weight: 400;
+        opacity: 0.95;
+    }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="HomePage.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+		<a href="Tentang_Kami.php">Tentang Kami</a>
+		<a href="Menu_fyp2.html">Menu</a>
+		<a href="Promotion.html">Promosi</a>
+		<a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="Sewa_Hall.html">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="kerjaya.html">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+    <a href="Cart.html" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+    </a>
+    <div class="lang-switch">
+        <i class="fas fa-globe"></i>
+        <a href="#" class="active">MS</a>
+        <span>|</span>
+        <a href="index_en.html">EN</a>
+    </div>
+</div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="text-container">
+            <h1>MENU</h1>
+			<P>Jelajahi Keistimewaan Rasa Kami</p>
+        </div>
+    </section>
+	
+	<div class="menu-navigation-bar">
+    <a href="Menu_fyp2.html" class="menu-nav-btn">Makanan</a>
+    <a href="minuman.html" class="menu-nav-btn">Minuman</a>
+    <a href="pencuci_mulut.html" class="menu-nav-btn">Pencuci Mulut</a>
+</div>
+
+	<h2 class="section-title">Pencuci Mulut</h2>
+	<div class="menu-category-title">
+    <h3>Pencuci Mulut</h3>
+	</div>
+	<div class="menu-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>Pencucimulut1</h4><p>Sedap dan asli</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>Pencucimulut1</h4><p>Kaw dan berkrim</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>Pencucimulut1</h4><p>Garing di luar</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>Pencucimulut1</h4><p>Rasa Itali asli</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+	
+	<div class="menu-category-title">
+    <h3>Pembuka Selera</h3>
+	</div>
+	<div class="menu-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>test1</h4><p>xx</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>test2</h4><p>xx</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>test3</h4><p>xx</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img"></div>
+                        <div class="menu-info"><h4>test4</h4><p>xx</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+	
+	<section class="cta-simple-section">
+    <h3>Ingin Mencuba ?</h3>
+    <p>Lawati Tuah Cafe hari ini dan nikmati pengalaman kulinari yang tak dapat dilupakan. Tempah meja anda sekarang!</p>
+</section>
+	
+<footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Kisah kami adalah tentang semangat, ketahanan, dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="kerjaya.html">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+	
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Dropdown Logic (Updated to only trigger on caret icon)
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                // Buang class 'active' dari dropdown lain supaya tak bertindih (Pilihan tambahan)
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        // Tutup dropdown jika klik di luar kawasan menu
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+                    dropdown.classList.remove("active");
+                });
+            }
+        });
+		
+		// Swiper Slider Logic
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            },
+        });
+    </script>
+</body>
+</html>

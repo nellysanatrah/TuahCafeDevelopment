@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Best Makan Spot & Event Space</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon:hover {
+            color: #C5A059;
+        }
+
+        /* --- DROPDOWN --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- HERO (KOD TELAH DIUBAH UNTUK VIDEO LATAR BELAKANG) --- */
+        .hero {
+            height: 80vh;
+            position: relative; /* Diperlukan untuk kedudukan video di dalam */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden; /* Supaya video tidak terkeluar dari sempadan hero */
+        }
+        
+        /* Gaya khusus fail video */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Memastikan video memenuhi ruang tanpa penyek */
+            z-index: 1;
+        }
+
+        /* Lapisan hitam overlay di atas video supaya teks lebih menyerlah */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        /* Memastikan kandungan teks dan butang duduk di atas video dan overlay */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero h1 { font-size: 45px; margin-bottom: 10px; }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary { background: #5b3a29; color: white; }
+        .btn-outline-hero { background: white; color: #5b3a29; }
+
+        /* --- INFO SECTION --- */
+        .info-section { background: #d8cfc3; padding: 60px; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .image-box { height: 400px; overflow: hidden; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+        .text-box {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .text-box h2 { font-size: 28px; color: #4b2e1e; margin-bottom: 15px; }
+        .text-box p { font-size: 14px; line-height: 1.6; margin-bottom: 20px; text-align: justify; }
+        .btn-text-box {
+            width: fit-content;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: 1px solid #4b2e1e;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* --- MENU POPULAR (SLIDER) --- */
+        .section-title { text-align: center; font-size: 32px; margin: 50px 0 30px; color: #5d4037; }
+        
+        .menu-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 50px;
+        }
+        .swiper { padding: 20px 0 60px; }
+        .menu-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            height: 100%;
+        }
+        .menu-img {
+    height: 220px;
+    width: 100%;
+    overflow: hidden; /* Supaya gambar tak terkeluar dari kotak */
+}
+
+.menu-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Gambar akan penuh dalam kotak secara automatik tanpa penyek */
+}
+        .menu-info { padding: 20px; }
+        .menu-info h4 { margin-bottom: 5px; font-size: 18px; }
+        .menu-info p { color: #888; font-size: 14px; }
+
+        /* Arrows Slider */
+        .swiper-button-next, .swiper-button-prev {
+            background-color: #5b3a29;
+            width: 45px !important;
+            height: 45px !important;
+            border-radius: 50%;
+            color: white !important;
+        }
+        .swiper-button-next:after, .swiper-button-prev:after { font-size: 18px !important; }
+
+        /* --- RUANG ACARA --- */
+        .package-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto 40px;
+            padding: 20px;
+        }
+        .package-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #efebe9;
+        }
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f3ece4;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .price { font-weight: bold; font-size: 1.2rem; }
+        .price span { font-size: 0.8rem; color: #888; }
+        .package-list { list-style: none; padding: 0; }
+        .package-list li { padding: 10px 0; border-bottom: 1px solid #f9f9f9; font-size: 14px; color: #666; }
+
+        .center-btn { text-align: center; margin-bottom: 60px; }
+        .btn-outline-brown {
+            padding: 12px 35px;
+            border: 2px solid #8d6e63;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #5d4037;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-outline-brown:hover { background: #8d6e63; color: white; }
+
+        /* --- JOM SINGGAH SECTION (NEW) --- */
+        .visit-section {
+            background-color: #f7f1e3;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .visit-container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            background: #f7f1e3;
+            align-items: center;
+            gap: 40px;
+        }
+		.visit-image {
+    flex: 1;
+    height: 400px;
+    border-radius: 15px; /* Tambah sedikit round corner supaya cantik */
+    overflow: hidden;    /* Pastikan gambar tak terkeluar dari border-radius */
+    border: 1px solid #ddd;
+}
+
+.visit-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Ini penting supaya gambar tak penyek (stretch) */
+    display: block;
+}
+        .visit-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .visit-content h2 {
+            font-size: 42px;
+            color: #5d4037;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        .visit-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #4e342e;
+        }
+        .visit-info {
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .visit-info p {
+            margin-bottom: 5px;
+        }
+        .visit-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .btn-visit {
+            padding: 12px 25px;
+            border: 1.5px solid #5d4037;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #5d4037;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+            background: white;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-visit:hover {
+            background: #5d4037;
+            color: white;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .visit-container { flex-direction: column; }
+            .visit-image { width: 100%; height: 300px; }
+            .nav-links { display: none; }
+            .header-right { display: none; } 
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="Tuah_Cafe_Video.mp4" type="video/mp4">
+            Browser anda tidak menyokong tag video HTML5.
+        </video>
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1>SELAMAT DATANG KE TUAH CAFE</h1>
+            <p>Tempat Makan & Ruang Acara Terbaik di Bangi</p>
+            <a href="Menu_fyp2.html" class="btn btn-primary">LIHAT MENU</a>
+            <a href="submit_reservation.php" class="btn btn-outline-hero">TEMPAH SEKARANG</a>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <div class="grid-container">
+            <div class="image-box"><img src="k2.jpg" alt="Perjalanan"></div>
+            <div class="text-box">
+                <h2>Perjalanan Kami</h2>
+                <p>Tuah Cafe bermula pada tahun 2014 dengan visi untuk mencipta pengalaman makan yang unik. Diasaskan oleh Muhammad Nazeem, kafe ini bermula di Bandar Baru Bangi dengan semangat untuk memberi yang terbaik kepada komuniti.</p>
+                <button class="btn-text-box" onclick="window.location.href='Tentang_Kami.php';">KETAHUI LEBIH LANJUT</button>
+            </div>
+            <div class="text-box">
+                <h2>Hidangan Istimewa</h2>
+                <p>Nikmati hidangan istimewa kami yang menggabungkan cita rasa tradisional dengan sentuhan moden. Dari Nasi Masak Kicap hingga signature Tuah Siri.</p>
+                <button class="btn-text-box" onclick="window.location.href='Promotion.html';">LIHAT PROMOSI HARI INI</button>
+            </div>
+            <div class="image-box"><img src="k4.jpg" alt="Hidangan"></div>
+        </div>
+    </section>
+
+    <h2 class="section-title">Menu Popular</h2>
+    <div class="menu-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img">
+						<img src="FourYouPlatter.png" alt="Platter">
+						</div>
+                        <div class="menu-info"><h4>Four You Platter</h4><p>•Chicken Wings •Beef Meatball •Cheezy Fries •Onion Rings</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img">
+						<img src="StrawberryMatchaLatte.png" alt="MatchaLatte">
+						</div>
+                        <div class="menu-info"><h4>Strawberry Matcha Latte</h4><p>Kombinasi yang menarik</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img">
+						<img src="ChickyCarbonara.png" alt="Chicky Carbonara">
+						</div>
+                        <div class="menu-info"><h4>Chicky Carbonara</h4><p>•Spageti •Kuah Berkrim •Filet Ayam Panggang •Cendawan •Parmesan •Empingan Cili</p></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="menu-card">
+                        <div class="menu-img">
+						<img src="CreamyTomYum.png" alt="Nasi Lemak Tuah">
+						</div>
+                        <div class="menu-info"><h4>Creamy Tomyum</h4><p>•Spageti •Kuah Tomyam Berkrim •Cendawan •Tomato Ceri •Udang</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div class="center-btn">
+        <a href="Menu_fyp2.html" class="btn-outline-brown">LIHAT MENU LENGKAP</a>
+    </div>
+
+    <hr style="border: 0.5px solid #e0d5c1; width: 80%; margin: 0 auto;">
+
+    <h2 class="section-title">Ruang Acara</h2>
+    <div class="package-grid">
+        <div class="package-card">
+            <div class="package-header">
+                <h3>Tuah Cafe Bangi</h3>
+                <div class="price">RM350 <span>/ 3Jam</span></div>
+            </div>
+            <ul class="package-list">
+                <li>Kapasiti sehingga 34 orang</li>
+                <li>Wifi Percuma</li>
+                <li>Sistem PA</li>
+                <li>Ruang letak kereta luas</li>
+                <li>+RM100/jam lebih masa</li>
+            </ul>
+        </div>
+        <div class="package-card">
+            <div class="package-header">
+                <h3>Tuah Cafe Eco Majestic</h3>
+                <div class="price">RM550 <span>/ 3Jam</span></div>
+            </div>
+            <ul class="package-list">
+                <li>Kapasiti sehingga 70 orang</li>
+                <li>Wifi Percuma</li>
+                <li>Sistem PA</li>
+                <li>Bilik berhawa dingin</li>
+                <li>+RM50/jam lebih masa</li>
+            </ul>
+        </div>
+    </div>
+    <div class="center-btn">
+        <a href="Perkhidmatan.html" class="btn-outline-brown">LIHAT PAKEJ LENGKAP</a>
+    </div>
+
+    <section class="visit-section">
+        <div class="visit-container">
+            <div class="visit-image">
+			<img src="kedai.jpeg" alt="Suasana Tuah Cafe">
+                </div>
+            <div class="visit-content">
+                <h2>Jom Singgah !!!</h2>
+                <p>Sama ada untuk makan santai, sambut acara atau sekadar nikmati suasana mesra. Tuah Cafe sentiasa sedia menyambut anda. 
+                Singgah di Bangi atau Eco Majestic hari ini!</p>
+                <div class="visit-info">
+                    <p>📍 Bangi: No.22 Jalan 7/1C, Seksyen 7</p>
+                    <p>📍 Eco Majestic: 42 Jalan Eco Majestic 10/1D</p>
+                    <p>Waktu Operasi: 10:00 AM - 11:00 PM</p>
+                </div>
+                <div class="visit-buttons">
+                    <a href="HubungiKami.html" class="btn-outline-brown">HUBUNGI KAMI</a>
+                    <a href="HubungiKami.html" class="btn-outline-brown">DAPATKAN ARAH</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang dikenali dalam industri makanan dan minuman, 
+                kisah kami adalah tentang semangat, ketahanan, dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                    
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Dropdown Logic
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(function(dropdown) {
+                    dropdown.classList.remove("active");
+                });
+            }
+        });
+
+        // Swiper Slider Logic
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            },
+        });
+    </script>
+</body>
+</html>

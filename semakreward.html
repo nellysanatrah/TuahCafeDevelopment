@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Points - Tuah Cafe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #FDF5E6; color: #4A372E; }
+        .main-content { text-align: center; padding: 40px 20px; }
+        
+        /* Header Info */
+        .points-header h1 { font-size: 36px; margin: 0; color: #5D4037; }
+        .big-point { font-size: 24px; font-weight: bold; color: #D4A017; margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .big-point i { font-size: 30px; }
+        .expiry-text { font-size: 14px; color: #888; }
+
+        /* Member Info Bars */
+        .member-bars { display: flex; justify-content: center; gap: 15px; margin: 30px auto; max-width: 800px; }
+        .bar { background: #D2B48C; padding: 15px 30px; border-radius: 12px; flex: 1; text-align: left; color: #4A372E; font-weight: bold; }
+        .progress-mini { background: rgba(0,0,0,0.1); height: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; }
+        .spend-info { font-size: 11px; font-weight: normal; opacity: 0.9; }
+
+        /* Rewards Grid */
+        .rewards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 20px auto; }
+        .reward-item { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding-bottom: 12px; }
+        .reward-item img { width: 100%; height: 140px; object-fit: cover; display: block; filter: grayscale(100%); opacity: 0.7; }
+        .reward-name { padding: 10px 10px 5px; font-size: 13px; font-weight: bold; text-align: left; }
+        
+        /* Reward Progress Bar */
+        .reward-progress-container { padding: 0 10px; text-align: left; }
+        .reward-progress-bg { background: #eee; height: 6px; border-radius: 10px; width: 100%; margin: 5px 0; }
+        .reward-progress-fill { background: #C5A059; height: 100%; border-radius: 10px; }
+        .points-to-go { font-size: 10px; color: #888; font-weight: bold; }
+
+        /* Floating Sidebar Buttons */
+        .side-menu { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1001; }
+        .side-btn { width: 50px; height: 50px; background: #C5A059; border: none; border-radius: 50%; color: white; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .side-btn.active { background: #5D4037; }
+        .logout-btn { background: #d9534f; }
+
+        /* Overlay & Popup */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+        .popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 500px; border-radius: 20px; overflow: hidden; display: none; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .popup-header { background: #5D4037; color: white; padding: 15px; text-align: center; font-weight: bold; text-transform: uppercase; }
+        .popup-body { padding: 25px; text-align: center; }
+
+        /* Buttons in Logout Popup */
+        .confirm-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .confirm-btns button { flex: 1; padding: 12px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        .btn-yes { background: #d9534f; color: white; }
+        .btn-no { background: #ddd; color: #333; }
+
+        /* Form Styles (Profile) */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-done { background: #C5A059; border: none; width: 100%; padding: 12px; color: white; border-radius: 25px; font-weight: bold; cursor: pointer; }
+
+        .tc-list { font-size: 14px; line-height: 1.6; text-align: left; }
+        .history-box { border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: left; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="points-header">
+            <h1>MY POINTS</h1>
+            <div class="big-point"><i class="fas fa-circle"></i> 101 POINT</div>
+            <p class="expiry-text"><i class="far fa-clock"></i> 101 points will expire by 28 Feb 2027</p>
+            <p style="color: #C5A059; font-weight: bold;">1 Point(s) = Min. spend of RM1 per visit</p>
+        </div>
+
+        <div class="member-bars">
+            <div class="bar">Hi, <span id="display-name">Sofia</span> <div style="font-size: 12px; opacity: 0.8;"><i class="fas fa-circle"></i> 101 Points</div></div>
+            <div class="bar">
+                New Member 
+                <div class="progress-mini"><div style="background:#5D4037; width:40%; height:100%; border-radius:4px;"></div></div>
+                <div class="spend-info">Spend another RM99 to become a bronze</div>
+            </div>
+        </div>
+
+        <p style="text-align: left; max-width: 900px; margin: 0 auto; font-weight: bold; padding: 0 10px;">Redeem your rewards</p>
+        
+        <div class="rewards-grid">
+            <script>
+                const rewards = [
+                    { name: 'Aiskrim Sundae', points: 200, img: 'sundae.jpg' },
+                    { name: 'Krim Puff', points: 150, img: 'creampuff.jpg' },
+                    { name: 'Latte Ais', points: 300, img: 'CaffeLatte.png' },
+                    { name: 'Sup Cendawan', points: 500, img: 'mushroom.jpg' },
+                    { name: 'Onion Ring', points: 800, img: 'OnionRing.png' },
+                    { name: '10% Off', points: 450, img: '10.jpg' },
+                    { name: 'RM5 Rebat', points: 250, img: 'cashback.png' },
+                    { name: 'Roti Kaya', points: 180, img: 'rotikaya.jpg' },
+                    { name: 'Spaghetti Carbonara', points: 600, img: 'ChickyCarbonara.png' },
+                    { name: 'RM10 Rebat', points: 1000, img: 'cashback.png' },
+                    { name: 'Macaron', points: 220, img: 'Macaron.png' },
+                    { name: '50% Mixed Grill', points: 280, img: 'MixedGrill.png' }
+                ];
+
+                const currentPoints = 101;
+                
+                document.write(rewards.map(item => {
+                    let progress = (currentPoints / item.points) * 100;
+                    let remaining = item.points - currentPoints;
+                    return `
+                    <div class="reward-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="reward-name">${item.name}</div>
+                        <div class="reward-progress-container">
+                            <div class="reward-progress-bg">
+                                <div class="reward-progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="points-to-go">${remaining > 0 ? remaining : 0} points to go</div>
+                        </div>
+                    </div>`;
+                }).join(''));
+            </script>
+        </div>
+    </div>
+
+    <div class="side-menu">
+        <button class="side-btn" onclick="togglePopup('profile', this)"><i class="fas fa-user"></i></button>
+        <button class="side-btn" onclick="togglePopup('tc', this)"><i class="fas fa-file-alt"></i></button>
+        <button class="side-btn" onclick="togglePopup('history', this)"><i class="fas fa-history"></i></button>
+        <button class="side-btn logout-btn" onclick="togglePopup('logout', this)"><i class="fas fa-sign-out-alt"></i></button>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <div id="popup-profile" class="popup">
+        <div class="popup-header">MEMBER'S DETAILS</div>
+        <div class="popup-body">
+            <div class="form-group"><label>Name*</label><input type="text" id="input-name" value="Sofia"></div>
+            <div class="form-group"><label>Phone Number*</label><input type="text" value="0123456789"></div>
+            <div class="form-group"><label>Birthday*</label><input type="date"></div>
+            <div class="form-group"><label>Email*</label><input type="email" value="sofia@email.com"></div>
+            <button class="btn-done" onclick="updateProfile()">DONE</button>
+        </div>
+    </div>
+
+    <div id="popup-tc" class="popup">
+        <div class="popup-header">TERMS AND CONDITIONS</div>
+        <div class="popup-body tc-list">
+            1. 1 point will be awarded for every RM1 spent.<br>
+            2. Points are not transferrable between members.<br>
+            3. Rewards are only available for redemption during the next transaction on a separate day.<br>
+            4. Rewards are made directly available by the relevant merchant.<br>
+            5. The merchant reserves the right to amend rewards offered without any prior notice.<br>
+            6. SMS reward redemptions are limited to a maximum of 1 per day with any spending.<br>
+            7. You can check your remaining points at www.mulahpoints.com<br>
+            8. Points will expire within 1 year from collection date.<br>
+        </div>
+    </div>
+
+    <div id="popup-history" class="popup">
+        <div class="popup-header">HISTORY</div>
+        <div class="popup-body">
+            <select style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <option>Wed, 25 Feb 2026 at 8:29 PM</option>
+            </select>
+            <div class="history-box">
+                <strong>Credit</strong><br>
+                <span style="font-size: 24px; color: #5D4037;">+101</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-logout" class="popup">
+        <div class="popup-header">LOGOUT</div>
+        <div class="popup-body">
+            <p>Adakah anda pasti untuk log keluar?</p>
+            <div class="confirm-btns">
+                <button class="btn-yes" onclick="window.location.href='Home_Page.html'">YA</button>
+                <button class="btn-no" onclick="closeAll()">TIDAK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateProfile() {
+            const newName = document.getElementById('input-name').value;
+            document.getElementById('display-name').innerText = newName;
+            closeAll();
+        }
+
+        function togglePopup(type, btn) {
+            const isActive = btn.classList.contains('active');
+            closeAll();
+            
+            if (!isActive) {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('popup-' + type).style.display = 'block';
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        }
+
+        function closeAll() {
+            document.getElementById('overlay').style.display = 'none';
+            document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
+            
+            const btns = document.querySelectorAll('.side-btn');
+            btns[0].innerHTML = '<i class="fas fa-user"></i>';
+            btns[1].innerHTML = '<i class="fas fa-file-alt"></i>';
+            btns[2].innerHTML = '<i class="fas fa-history"></i>';
+            btns[3].innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+            btns.forEach(b => b.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>

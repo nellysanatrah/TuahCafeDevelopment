@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Ahli</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon:hover {
+            color: #C5A059;
+        }
+        /* --- DROPDOWN --- */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            flex: 1;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .loyalty-hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .loyalty-hero-img {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .loyalty-hero-img img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgb(#C5A059);
+            object-fit: cover;
+        }
+
+        .loyalty-hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .loyalty-hero-text h1 {
+            color: #5B3A29;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .loyalty-hero-text p {
+            color: #E6A100;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .btn-semak {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 2px solid #5B3A29;
+            border-radius: 30px;
+            color: #5B3A29;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-semak:hover {
+            background-color: #5B3A29;
+            color: #f7f1e3;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            color: #5B3A29;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #5B3A29;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .step-card {
+            background-color: #ffffff;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            width: 280px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        /* Imej Bulat Baru */
+        .img-bulat {
+            width: 150px;
+            height: 150px;
+            background-color: #6b3f2a; /* Warna fallback jika gambar tak load */
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            object-fit: cover;
+            display: block;
+            border: 4px solid #D4B074;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .benefit-card {
+            background-color: #ffffff;
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        /* --- LEVEL TRACKER --- */
+        .level-section {
+            margin-bottom: 80px;
+        }
+
+        .level-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .level-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            text-align: center;
+        }
+
+        .level-line {
+            height: 4px;
+            background-color: #E6BC65;
+            flex-grow: 1;
+            margin: 23px 10px 0 10px;
+            border-radius: 2px;
+        }
+
+        .level-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .c-baru { background-color: #B3B3B3; }
+        .c-gangsa { background-color: #D67D21; }
+        .c-perak { background-color: #D9D9D9; }
+        .c-emas { background-color: #FCB935; }
+
+        /* --- MEMBERSHIP TABLE SECTION --- */
+        .membership-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 80px;
+            width: 100%;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #6b3f2a;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 20px 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .header-label { font-weight: 800; font-size: 1rem; display: block; text-transform: uppercase; }
+        .header-sub { font-weight: 600; font-size: 0.75rem; opacity: 0.9; }
+
+        .tier-new { background-color: #6b3f2a; color: white !important; }
+        td.tier-new {
+            background-color: #6b3f2a;
+            color: white !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tier-bronze { background-color: #D67D21; color: white; }
+        .tier-silver { background-color: #D9D9D9; }
+        .tier-gold { background-color: #FCB935; }
+
+        .label-cell {
+            background-color: #EADBC8;
+            color: #5B3A29;
+            font-weight: 800;
+            padding: 20px;
+            width: 25%;
+            text-align: left;
+            border-bottom: 1px solid #fff;
+            font-size: 0.9rem;
+        }
+
+        .label-subtext {
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: block;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        td {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid rgba(0,0,0,0.05);
+            font-weight: 700;
+            color: #5B3A29;
+        }
+
+        .checkmark::before {
+            content: "✔";
+            font-size: 1.2rem;
+        }
+
+        .btn-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 40px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+        .footer-container h2 { font-size: 22px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p, .footer-container li { font-size: 14px; opacity: 0.8; line-height: 1.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container a { text-decoration: none; color: #eee; }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-icons { display: flex; gap: 20px; }
+        .footer-icons a { color: white; font-size: 20px; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .nav-links { display: none; }
+            .level-line { display: none; }
+            .level-card { flex-direction: column; align-items: center; gap: 20px; }
+            .label-cell { width: 40%; font-size: 0.8rem; }
+            td { font-size: 0.8rem; padding: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="loyalty-hero">
+            <div class="loyalty-hero-img">
+                <img src="gift_removebg.png" alt="Hadiah Loyalty Programme Tuah Cafe">
+            </div>
+            <div class="loyalty-hero-text">
+                <h1>TUAH LOYALTY PROGRAMME</h1>
+                <p>Kami menghargai pelanggan setia kami. Semakin banyak anda berbelanja, semakin banyak ganjaran yang menanti anda!</p>
+                <a href="semakmata.html" class="btn-semak">Semak Mata Anda</a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Baru Nak Sertai? Senang Je!</h2>
+                <p>3 langkah mudah jadi ahli Tuah</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card">
+                    <img src="member.png" alt="Dine-in" class="img-bulat">
+                    <h3>1. Dine-in</h3>
+                    <p>Makan di Tuah Cafe</p>
+                </div>
+                <div class="step-card">
+                    <img src="member2.png" alt="Kaunter" class="img-bulat">
+                    <h3>2. Tanya Kaunter</h3>
+                    <p>Beritahu nak daftar ahli</p>
+                </div>
+                <div class="step-card">
+                    <img src="member3.png" alt="Daftar" class="img-bulat">
+                    <h3>3. Daftar</h3>
+                    <p>Lengkapkan pendaftaran</p>
+                </div>
+            </div>
+        </section>
+		
+        <section>
+            <div class="section-header">
+                <h2>Apa Yang Anda Dapat?</h2>
+                <p>Ganjaran istimewa untuk setiap kunjungan</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <img src="selamatdatang.png" alt="Welcome" class="img-bulat">
+                    <h3>Selamat Datang!</h3>
+                    <p>Percuma item istimewa & diskaun pada lawatan pertama dan kedua anda.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="tiadayuran.png" alt="Free" class="img-bulat">
+                    <h3>Tiada Yuran</h3>
+                    <p>Yuran keahlian RM0. Pendaftaran percuma tanpa sebarang caj!</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="pantas.png" alt="Fast" class="img-bulat">
+                    <h3>Pantas & Mudah</h3>
+                    <p>Pantau mata ganjaran anda dengan mudah melalui sistem dalam talian.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="ganjaran.png" alt="Gift" class="img-bulat">
+                    <h3>Ganjaran Menanti</h3>
+                    <p>Tebus pelbagai hadiah menarik dengan mata anda.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="tawaran.png" alt="Exclusive" class="img-bulat">
+                    <h3>Tawaran Eksklusif</h3>
+                    <p>Dapatkan promosi khas yang hanya untuk ahli kelab.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="birthday.png" alt="Birthday" class="img-bulat">
+                    <h3>Hadiah Hari Lahir</h3>
+                    <p>Kejutan istimewa pada hari istimewa anda.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="level-section">
+            <div class="section-header">
+                <h2>Naik Level, Lagi Best Ganjaran!</h2>
+                <p>Kumpul mata untuk manfaat eksklusif</p>
+            </div>
+            <div class="level-card">
+                <div class="level-item"><div class="level-circle c-baru"></div><h4>Baru</h4><p>30 mata</p></div>
+                <div class="level-line"></div>
+                <div class="level-item"><div class="level-circle c-gangsa"></div><h4>Gangsa</h4><p>300 mata</p></div>
+                <div class="level-line"></div>
+                <div class="level-item"><div class="level-circle c-perak"></div><h4>Perak</h4><p>500 mata</p></div>
+                <div class="level-line"></div>
+                <div class="level-item"><div class="level-circle c-emas"></div><h4>Emas</h4><p>1000 mata</p></div>
+            </div>
+        </section>
+
+        <section class="membership-section">
+            <div class="section-header">
+                <h2>Manfaat Mengikut Tahap</h2>
+                <p>Bandingkan kelebihan setiap tahap keahlian</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="background-color: #EADBC8; color: #5B3A29;">Ganjaran</th>
+                            <th class="tier-new"><span class="header-label">Ahli Baharu</span><span class="header-sub">30 mata digunakan</span></th>
+                            <th class="tier-bronze"><span class="header-label">Gangsa</span><span class="header-sub">300 mata digunakan</span></th>
+                            <th class="tier-silver"><span class="header-label">Perak</span><span class="header-sub">500 mata digunakan</span></th>
+                            <th class="tier-gold"><span class="header-label">Emas</span><span class="header-sub">1000 mata digunakan</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="label-cell">Ganjaran Hari Lahir</td>
+                            <td class="tier-new"><span class="checkmark"></span></td>
+                            <td class="tier-bronze"><span class="checkmark"></span></td>
+                            <td class="tier-silver"><span class="checkmark"></span></td>
+                            <td class="tier-gold"><span class="checkmark"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Promosi Tuah Hari Ini</td>
+                            <td class="tier-new"></td>
+                            <td class="tier-bronze"><span class="checkmark"></span></td>
+                            <td class="tier-silver"><span class="checkmark"></span></td>
+                            <td class="tier-gold"><span class="checkmark"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Promosi Hari Lahir <span class="label-subtext">Sah sepanjang bulan lahir*</span></td>
+                            <td class="tier-new"></td>
+                            <td class="tier-bronze">5%</td>
+                            <td class="tier-silver">5%</td>
+                            <td class="tier-gold">10%</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell" style="border-bottom: none;">Pakej Acara Peribadi Diskaun</td>
+                            <td class="tier-new" style="border-bottom: none;"></td>
+                            <td class="tier-bronze" style="border-bottom: none;">5%</td>
+                            <td class="tier-silver" style="border-bottom: none;">5%</td>
+                            <td class="tier-gold" style="border-bottom: none;">10%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="btn-container">
+                <a href="semakmata.html" class="btn-semak">Semak Mata Anda</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Kisah kami adalah tentang semangat, ketahanan, dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dropdown Logic
+        document.querySelectorAll(".dropdown-toggle").forEach(icon => {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!e.target.matches('.dropdown-toggle')) {
+                document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("active"));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Tuah Cafe</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* --- HEADER (Full Screen & Seamless) --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+
+        /* HERO SECTION */
+        .hero-section {
+            background-color: #A98467;
+            color: #FFF;
+            text-align: center;
+            padding: 60px 20px;
+            width: 100%;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+        .main-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .cart-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .cart-left {
+            flex: 2;
+            background: #FFF;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .cart-right-summary {
+            flex: 1;
+        }
+
+        /* CART TABLE */
+        .cart-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th {
+            background-color: #D2A679;
+            color: #FFF;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .cart-table th.text-left { text-align: left; }
+        .cart-table th.text-center { text-align: center; }
+
+        .cart-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #EEE;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        .text-center { text-align: center; }
+        .font-semibold { font-weight: 600; }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-delete:hover { color: #cc0000; }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-img-placeholder {
+            width: 60px;
+            height: 60px;
+            background-color: #F0F0F0;
+            border: 1px dashed #CCC;
+            border-radius: 4px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .product-meta {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* QUANTITY CONTROL */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: 1px solid #CCC;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .qty-btn:hover {
+            background-color: #F0F0F0;
+        }
+
+        .qty-val {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* COUPON SECTION */
+        .coupon-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .coupon-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .coupon-input {
+            border: 1px solid #CCC;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            outline: none;
+            width: 160px;
+        }
+
+        .btn-coupon {
+            background-color: #5C3A21;
+            color: #FFF;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-clear {
+            background: none;
+            border: none;
+            color: #8B5A2B;
+            text-decoration: underline;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* SUMMARY CARD */
+        .summary-card {
+            background-color: #FFF;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .summary-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #F5F5F5;
+            padding-bottom: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .row-discount {
+            color: #333;
+        }
+
+        .summary-divider {
+            border: 0;
+            border-top: 1px solid #EEE;
+            margin: 15px 0;
+        }
+
+        .row-total {
+            font-size: 1.05rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background-color: #5C3A21;
+            color: #FFF;
+            border: none;
+            border-radius: 20px;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon:hover {
+            color: #C5A059;
+        }
+        
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* FOOTER (Full Screen & Seamless) */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .cart-layout { flex-direction: column; }
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { display: none; }
+            .header-right { display: none; } 
+            footer { padding: 40px 20px; }
+            .main-header { padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <h1>SHOPPING CART</h1>
+    </section>
+
+    <main class="main-container">
+        <div class="cart-layout">
+            
+            <div class="cart-left">
+                <div class="cart-table-wrapper">
+                    <table class="cart-table" id="cartTable">
+                        <thead>
+                            <tr>
+                                <th width="10%"></th>
+                                <th width="40%" class="text-left">Product</th>
+                                <th width="15%">Price</th>
+                                <th width="20%">Quantity</th>
+                                <th width="15%">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cart-item" data-price="15.00">
+                                <td class="text-center">
+                                    <button class="btn-delete"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-img-placeholder"></div>
+                                        <div>
+                                            <p class="product-name">Nasi Ayam Masak Kicap</p>
+                                            <p class="product-meta">Add chicken</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold product-price">RM15.00</td>
+                                <td>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn btn-minus"><i class="fa-solid fa-minus"></i></button>
+                                        <span class="qty-val">3</span>
+                                        <button class="qty-btn btn-plus"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold item-subtotal">RM45.00</td>
+                            </tr>
+                            <tr class="cart-item" data-price="15.00">
+                                <td class="text-center">
+                                    <button class="btn-delete"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-img-placeholder"></div>
+                                        <div>
+                                            <p class="product-name">Nasi Ayam Balado</p>
+                                            <p class="product-meta">Add Nasi</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold product-price">RM15.00</td>
+                                <td>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn btn-minus"><i class="fa-solid fa-minus"></i></button>
+                                        <span class="qty-val">3</span>
+                                        <button class="qty-btn btn-plus"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold item-subtotal">RM45.00</td>
+                            </tr>
+                            <tr class="cart-item" data-price="15.00">
+                                <td class="text-center">
+                                    <button class="btn-delete"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-img-placeholder"></div>
+                                        <div>
+                                            <p class="product-name">Buttermilk Chicken Rice</p>
+                                            <p class="product-meta">Add Nasi</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold product-price">RM15.00</td>
+                                <td>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn btn-minus"><i class="fa-solid fa-minus"></i></button>
+                                        <span class="qty-val">3</span>
+                                        <button class="qty-btn btn-plus"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold item-subtotal">RM45.00</td>
+                            </tr>
+                            <tr class="cart-item" data-price="15.00">
+                                <td class="text-center">
+                                    <button class="btn-delete"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-img-placeholder"></div>
+                                        <div>
+                                            <p class="product-name">Buttermilk Chicken</p>
+                                            <p class="product-meta">Add chicken</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold product-price">RM15.00</td>
+                                <td>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn btn-minus"><i class="fa-solid fa-minus"></i></button>
+                                        <span class="qty-val">3</span>
+                                        <button class="qty-btn btn-plus"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td class="text-center font-semibold item-subtotal">RM45.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="coupon-container">
+                    <div class="coupon-inputs">
+                        <input type="text" placeholder="Coupon Code" class="coupon-input">
+                        <button class="btn-coupon">Apply Coupon</button>
+                    </div>
+                    <button class="btn-clear" id="btnClearCart">Clear Shopping Cart</button>
+                </div>
+            </div>
+
+            <div class="cart-right-summary">
+                <div class="summary-card">
+                    <h3 class="summary-title">Order Summary</h3>
+                    
+                    <div class="summary-row">
+                        <span>Item</span>
+                        <span class="font-semibold" id="summaryItems">12</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Sub Total</span>
+                        <span class="font-semibold" id="summarySubtotal">RM180.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span class="font-semibold">RM00.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span class="font-semibold">RM00.00</span>
+                    </div>
+                    <div class="summary-row row-discount">
+                        <span>Coupon Discount</span>
+                        <span class="font-semibold" id="summaryDiscount">-RM100.00</span>
+                    </div>
+                    
+                    <hr class="summary-divider">
+                    
+                    <div class="summary-row row-total">
+                        <span>Total</span>
+                        <span class="font-semibold" id="summaryTotal">RM80.00</span>
+                    </div>
+
+                    <button class="btn-checkout" id="btnCheckout">Proceed to Checkout</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang dikenali dalam industri makanan dan minuman, kisah kami adalah tentang semangat, ketahanan, dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Kerjaya.html">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dropdown Logic
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.querySelectorAll(".dropdown").forEach(function(d) {
+                    if (d !== icon.closest(".dropdown")) {
+                        d.classList.remove("active");
+                    }
+                });
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        // --- CART INTERACTION LOGIC ---
+        const discountAmount = 100.00; // Mengikut kupon diskaun asal RM100
+
+        function updateCartTotals() {
+            let totalItems = 0;
+            let subtotalAll = 0;
+            const cartRows = document.querySelectorAll('.cart-item');
+
+            cartRows.forEach(row => {
+                const price = parseFloat(row.getAttribute('data-price'));
+                const qty = parseInt(row.querySelector('.qty-val').textContent);
+                const itemSubtotal = price * qty;
+                
+                // Kemas kini subtotal untuk item baris ini
+                row.querySelector('.item-subtotal').textContent = `RM${itemSubtotal.toFixed(2)}`;
+                
+                totalItems += qty;
+                subtotalAll += itemSubtotal;
+            });
+
+            // Hitung total keseluruhan selepas diskaun
+            let finalTotal = subtotalAll - discountAmount;
+            if (finalTotal < 0 || totalItems === 0) finalTotal = 0; // Mengelakkan nilai negatif jika cart kosong
+
+            // Kemas kini bahagian Order Summary
+            document.getElementById('summaryItems').textContent = totalItems;
+            document.getElementById('summarySubtotal').textContent = `RM${subtotalAll.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `RM${finalTotal.toFixed(2)}`;
+            
+            // Jika cart kosong, setkan paparan diskaun kepada RM0
+            if(totalItems === 0) {
+                document.getElementById('summaryDiscount').textContent = "RM0.00";
+            } else {
+                document.getElementById('summaryDiscount').textContent = `-RM${discountAmount.toFixed(2)}`;
+            }
+        }
+
+        // Event listener untuk butang Tambah, Tolak, dan Padam Item
+        document.querySelector('#cartTable tbody').addEventListener('click', function(e) {
+            const target = e.target;
+            const row = target.closest('.cart-item');
+            
+            if (!row) return;
+
+            // Butang Tambah (+)
+            if (target.closest('.btn-plus')) {
+                const qtySpan = row.querySelector('.qty-val');
+                let qty = parseInt(qtySpan.textContent);
+                qtySpan.textContent = qty + 1;
+                updateCartTotals();
+            }
+
+            // Butang Tolak (-)
+            if (target.closest('.btn-minus')) {
+                const qtySpan = row.querySelector('.qty-val');
+                let qty = parseInt(qtySpan.textContent);
+                if (qty > 1) {
+                    qtySpan.textContent = qty - 1;
+                    updateCartTotals();
+                }
+            }
+
+            // Butang Delete Individu (Tong Sampah)
+            if (target.closest('.btn-delete')) {
+                row.remove();
+                updateCartTotals();
+            }
+        });
+
+        // Butang Clear Shopping Cart
+        document.getElementById('btnClearCart').addEventListener('click', function() {
+            document.querySelector('#cartTable tbody').innerHTML = '';
+            updateCartTotals();
+        });
+
+        // Butang Proceed to Checkout
+        document.getElementById('btnCheckout').addEventListener('click', function() {
+            const totalItems = parseInt(document.getElementById('summaryItems').textContent);
+            if(totalItems > 0) {
+                alert('Successful!');
+            } else {
+                alert('Shopping cart anda kosong.');
+            }
+        });
+
+        // Jalankan pengiraan pertama kali semasa halaman dibuka
+        updateCartTotals();
+    </script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuah Cafe - Promosi</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- RESET & BASIC --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f7f1e3;
+            color: #4e342e;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background-color: #4A372E;
+            color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .logo-circle {
+            width: 45px;
+            height: 45px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-text h1 { font-size: 22px; font-weight: 700; margin: 0; }
+        .brand-text p { font-size: 10px; opacity: 0.8; margin: 0; }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #C5A059; }
+		
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- HEADER RIGHT (CART & PROFILE) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon:hover {
+            color: #C5A059;
+        }
+
+        .dropdown { position: relative; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 5px; }
+        .dropdown-toggle { cursor: pointer; color: white; transition: 0.3s; font-size: 14px; }
+        .dropdown-toggle:hover { color: #C5A059; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4A372E;
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 8px 166px rgba(0,0,0,0.2);
+            padding: 8px 0;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 16px;
+            text-transform: none;
+        }
+        .dropdown.active .dropdown-content { display: block; }
+
+        /* --- BAHAGIAN PROMOSI --- */
+        main {
+            flex-grow: 1;
+        }
+
+        .promo-hero-container {
+            display: flex;
+            width: 100%;
+            min-height: 60vh;
+        }
+
+        .promo-hero-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80') center/cover no-repeat;
+            position: relative;
+        }
+
+        .promo-hero-image::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(252, 249, 242, 0.3);
+        }
+
+        .promo-hero-text {
+            flex: 1;
+            background-color: #FCF9F2; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .text-content-wrapper {
+            max-width: 500px;
+        }
+
+        .text-content-wrapper h2 {
+            color: #5B3A29;
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .text-content-wrapper p {
+            color: #E6B869; 
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .promo-cards-section {
+            background-color: #F2EAE0;
+            padding: 80px 20px 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .promo-card {
+            text-align: center;
+            max-width: 300px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .promo-card img {
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+
+        .promo-card:hover img {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .promo-card p {
+            color: #5B3A29;
+            font-weight: 600;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* --- TUAH HARI INI SECTION --- */
+        .thi-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            background-color: #f2eae0;
+            padding: 60px 40px;
+        }
+        .thi-slider-container { width: 550px; position: relative; }
+        .thi-swiper { border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .thi-swiper img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        
+        .thi-text-side { display: flex; align-items: center; gap: 20px; }
+        .thi-text-side h2 { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            text-align: right; 
+            line-height: 1.1; 
+            color: #5B3A29; 
+        }
+        .red-badge {
+            background-color: #e63946;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+            text-align: center;
+        }
+        .red-badge span { font-size: 10px; display: block; margin-bottom: 5px; font-weight: 400; text-transform: uppercase; }
+
+        /* --- FESTIVAL SECTION --- */
+        .festival-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+        .festival-header img { width: 250px; }
+        .festival-header h2 { font-size: 2rem; font-weight: 800; color: #5B3A29; line-height: 1.2; }
+
+        .fp-slider-wrapper { 
+            position: relative; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 50px; 
+        }
+
+        /* PERBAIKAN SAIZ GAMBAR FESTIVAL (240x300) */
+        .fp-swiper .swiper-slide {
+            display: flex;
+            justify-content: center;
+        }
+        .fp-swiper .swiper-slide img {
+            width: 240px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* PERBAIKAN TERMA & SYARAT CENTER */
+        .terma-syarat {
+            margin: 50px auto;
+            padding: 0 20px;
+            color: #1a1a1a;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .terma-syarat strong {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .terma-syarat ul {
+            font-size: 0.85rem;
+            display: inline-block;
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        /* Swiper Navigation Custom */
+        .swiper-button-next, .swiper-button-prev { color: #5B3A29 !important; transform: scale(0.7); }
+        .swiper-pagination-bullet-active { background: #5B3A29 !important; }
+		
+		/* --- STUDENT DISCOUNT SECTION (KEMAS) --- */
+        .student-discount-section {
+            background-color: #FDF5E6;
+            padding: 60px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .student-images {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 400px;
+        }
+        /* Tag img baru untuk student discount */
+        .student-img-item {
+            width: 430px;
+            height: 133px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .student-promo-info {
+            max-width: 400px;
+        }
+        .student-promo-info h2 {
+            font-size: 3rem;
+            color: #4A372E;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        .student-badge {
+            max-width: 280px;
+            margin-bottom: 20px;
+        }
+        .student-terms {
+            font-size: 13px;
+            color: #4A372E;
+        }
+
+        /* Swiper Controls */
+        .swiper-button-next, .swiper-button-prev { color: #5B3A29 !important; transform: scale(0.6); }
+        .swiper-pagination-bullet-active { background: #5B3A29 !important; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: linear-gradient(to right, #6b3f2a, #4b2e1e);
+            color: #eee;
+            padding: 80px 100px 40px;
+        }
+        .footer-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-bottom: 40px;
+        }
+        .footer-container h2 { font-size: 24px; color: #d4a24c; margin-bottom: 20px; }
+        .footer-container p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+        .footer-container ul { list-style: none; }
+        .footer-container ul li { margin-bottom: 10px; }
+        .footer-container ul li a { text-decoration: none; color: #eee; font-size: 14px; }
+        
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-icons a {
+            color: white;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #d4a24c;
+        }
+
+        /* Responsif */
+        @media (max-width: 992px) {
+            .thi-section { flex-direction: column; text-align: center; }
+            .thi-text-side { flex-direction: column; }
+            .thi-text-side h2 { text-align: center; }
+            .thi-slider-container { width: 100%; }
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links, .lang-switch { display: none; }
+            footer { padding: 40px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <a href="Home_Page.html" class="logo-section">
+            <div class="logo-circle">
+                <img src="logo.png" alt="Logo" style="width:46px;">
+            </div>
+            <div class="brand-text">
+                <h1>Tuah Cafe</h1>
+                <p>Best Makan Spot Event Space di Bangi</p>
+            </div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="Tentang_Kami.php">Tentang Kami</a>
+            <a href="Menu_fyp2.html">Menu</a>
+            <a href="Promotion.html">Promosi</a>
+            <a href="Keahlian.html">Ahli</a>
+            
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <a href="Perkhidmatan.html">Perkhidmatan</a>
+                    <i class="fas fa-caret-down dropdown-toggle"></i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="cafe_event_bookings.php">Sewa Hall</a>
+                    <a href="Delivery.html">Tempahan dalam talian</a>
+                    <a href="Katering.html">Katering</a>
+                </div>
+            </div>
+                
+            <a href="galeriacara.html">Galeri</a>
+            <a href="HubungiKami.html">Hubungi Kami</a>
+            <a href="Job_Form.php">Kerjaya</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="checkout.html" class="header-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="http://localhost/fyp2_renew/admin/login.php" class="header-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        
+        <section class="promo-hero-container">
+            <div class="promo-hero-image"></div>
+            <div class="promo-hero-text">
+                <div class="text-content-wrapper">
+                    <h2>PELBAGAI<br>PROMOSI<br>UNTUK<br>DINIKMATI</h2>
+                    <p>#PortionBesarHargaBerpatutan</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="promo-cards-section">
+            <div class="promo-card">
+                <img src="festival.png" alt="Festival Promotion">
+                <p>Festival promo yang tak masuk akal kami bagi!</p>
+            </div>
+            <div class="promo-card">
+                <img src="student_promo.png" alt="Tuah Hari Ini">
+                <p>Pelbagai promosi menarik setiap hari untuk anda semua!</p>
+            </div>
+            <div class="promo-card">
+                <img src="studentdisc.png" alt="Student Discount">
+                <p>Semua 'pelajar' kami tawarkan diskaun untuk anda!</p>
+            </div>
+        </section>
+
+        <div class="thi-section">
+            <div class="thi-slider-container">
+                <div class="swiper thi-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="monday.jpg" alt="Monday"></div>
+                        <div class="swiper-slide"><img src="tuesday.jpg" alt="Tuesday"></div>
+                        <div class="swiper-slide"><img src="wednesday.jpg" alt="Wednesday"></div>
+                        <div class="swiper-slide"><img src="friday.jpg" alt="Friday"></div>
+                        <div class="swiper-slide"><img src="weekends.jpg" alt="Weekends"></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+
+            <div class="thi-text-side">
+                <h2>HARI<br>BERBEZA<br>PROMOSI<br>YANG SAMA</h2>
+                <div class="red-badge">
+                    <span>Nikmati hari anda dengan</span>
+                    TUAH<br>HARI<br>INI
+                </div>
+            </div>
+        </div>
+
+        <div class="festival-header">
+            <img src="festival.png" alt="Festival Logo">
+            <h2>JANGAN LUPA FOLLOW KAMI !<br>PROMOSI KHAS MENANTI ANDA !</h2>
+        </div>
+
+        <div class="fp-slider-wrapper">
+            <div class="swiper fp-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="matcham.jpg" alt="Matcha"></div>
+                    <div class="swiper-slide"><img src="spm.jpg" alt="SPM"></div>
+                    <div class="swiper-slide"><img src="mom.jpg" alt="Mom"></div>
+                    <div class="swiper-slide"><img src="national.jpg" alt="National"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <div class="terma-syarat">
+            <strong>Terma & Syarat</strong>
+            <ul>
+                <li>Promosi ini sah untuk peraduan media sosial sahaja.</li>
+                <li>Gambar hidangan adalah untuk tujuan ilustrasi sahaja.</li>
+                <li>Harga semua produk dan perkhidmatan termasuk 6% Cukai Perkhidmatan.</li>
+                <li>Harga mungkin berbeza dan tertakluk kepada setiap tempahan.</li>
+                <li>Semua produk dalam promosi ini adalah tetap dan tidak boleh diubah.</li>
+                <li>Promosi ini hanya sah di Tuah Cafe sahaja.</li>
+            </ul>
+        </div>
+		
+		<section class="student-discount-section">
+            <div class="student-images">
+                <img src="allfood.png" alt="Student Image 1" class="student-img-item">
+                <img src="allbeverage.png" alt="Student Image 2" class="student-img-item">
+            </div>
+            <div class="student-promo-info">
+                <h2>KAD PELAJAR<br>DISKAUN 10%</h2>
+                <img src="studentdisc.png" alt="Student Discount Badge" class="student-badge">
+                <div class="student-terms">
+                    <h4>Terma & Syarat</h4>
+                    <ul>
+                        <li>Sah untuk pelajar yang mempunyai kad pelajar yang sah sahaja.</li>
+                        <li>Tawaran terhad kepada satu set hidangan bagi setiap pelajar.</li>
+                        <li>Diskaun 10% dihadkan sehingga RM50 bagi setiap resit untuk setiap pelajar.</li>
+                        <li>Tidak sah digunakan bersama tawaran atau promosi lain.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h2>Tuah Cafe</h2>
+                <p>Tempat di mana tradisi kulinari bertemu inovasi! Dari permulaan kecil hingga menjadi nama yang 
+                dikenali dalam industri makanan dan minuman, kisah kami adalah tentang semangat, ketahanan, 
+                dan keinginan untuk terus memberi yang terbaik kepada komuniti.</p>
+            </div>
+            <div>
+                <h2>Pautan Pantas</h2>
+                <ul>
+                    <li><a href="Tentang_Kami.php">Tentang Kami</a></li>
+                    <li><a href="Menu_fyp2.html">Menu</a></li>
+                    <li><a href="Promotion.html">Promosi</a></li>
+                    <li><a href="Keahlian.html">Keahlian</a></li>
+                    <li><a href="Perkhidmatan.html">Perkhidmatan</a></li>
+                    <li><a href="galeriacara.html">Galeri</a></li>
+                    <li><a href="HubungiKami.html">Hubungi Kami</a></li>
+                    <li><a href="Job_Form.php">Kerjaya</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Maklumat Perhubungan</h2>
+                <p>📍 No.22 Jalan 7/1C, Seksyen 7 Bandar Baru Bangi, Selangor</p>
+                <p>📍 42, Jalan Eco Majestic 10/1D, Semenyih, Selangor</p>
+                <p>📞 03-8912 8798</p>
+                <p>📩 admin@tuahcafe.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                <p>© 2026 Tuah Cafe. Hak cipta terpelihara.</p>
+            </div>
+            <div class="footer-icons">
+                <a href="https://www.instagram.com/tuahcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/tuahcafe" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tuahcafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+	
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        document.querySelectorAll(".dropdown-toggle").forEach(function(icon) {
+            icon.addEventListener("click", function(e) {
+                e.preventDefault();
+                let parent = this.closest(".dropdown");
+                parent.classList.toggle("active");
+            });
+        });
+
+        // Initialize Tuah Hari Ini Slider
+        const thiSwiper = new Swiper('.thi-swiper', {
+            loop: true,
+            pagination: { el: '.thi-swiper .swiper-pagination', clickable: true },
+            navigation: { nextEl: '.thi-slider-container .swiper-button-next', prevEl: '.thi-slider-container .swiper-button-prev' },
+        });
+
+        // Initialize Festival Promo Slider
+        const fpSwiper = new Swiper('.fp-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            pagination: { el: '.fp-swiper .swiper-pagination', clickable: true },
+            navigation: { nextEl: '.fp-slider-wrapper .swiper-button-next', prevEl: '.fp-slider-wrapper .swiper-button-prev' },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 4 }
+            }
+        });
+    </script>
+</body>
+</html>
